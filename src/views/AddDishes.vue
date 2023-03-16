@@ -4,6 +4,25 @@
     <div class="backbutton">
       <el-button type="info" plain @click="jumpDishes">返回</el-button>
     </div>
+    <div class="uppic">
+      <el-col span="12" :push="7">
+        <!-- auto-upload为是否自动加载；action为图片要上传到的地址，这里随便填一个，因为暂时不用 -->
+        <!-- class为动态样式选择，是实现上传图片后上传框消失的关键 -->
+        <el-upload action="#"
+                   list-type="picture-card"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemoveimg"
+                   :auto-upload="false" :on-change="handleChangeimg"
+                   :class="objClass"
+                   :file-list="fileList" :limit="1">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <!-- el-dialog为点击预览图的放大按钮后弹出来的框，在框内显示放大的图片 -->
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </el-col>
+    </div>
     <div class="down">
       <el-form  :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" >
         <el-form-item label="菜品名称" prop="name">
@@ -24,7 +43,7 @@
         <el-form-item label="菜品描述" prop="desc">
           <el-input type="textarea" v-model="ruleForm.desc"></el-input>
         </el-form-item>
-        <el-form-item label="修改日期" prop="date">
+        <el-form-item label="添加日期" prop="date">
           <el-date-picker
               v-model="ruleForm.date"
               align="right"
@@ -34,7 +53,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">确认添加</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -56,6 +75,13 @@ export default {
         desc: '',
         date:new Date(),
       },
+      dialogImageUrl: '',
+      dialogVisible: false,
+      fileList: [],
+      objClass: {
+        upLoadShow: true,
+        upLoadHide: false,
+      },
       rules: {
         name: [
           { required: true, message: '请输入菜品名称', trigger: 'blur' }
@@ -76,12 +102,24 @@ export default {
     };
   },
   methods: {
+    change(){
+      console.log(file)
+      console.log(fileList)
+      console.log(this.$el)
+      // if(fileList.length>0){
+      //
+      // }
+    },
+    jumpDishes () {
+      this.$router.push('/dishesmng')
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          alert('添加成功!');
+          this.$router.push('/dishesmng')
         } else {
-          console.log('error submit!!');
+          console.log('出错了!!');
           return false;
         }
       });
@@ -91,11 +129,27 @@ export default {
     },
     handleChange(value) {
       console.log(value);
+    },
+    handleRemove(file) {
+      console.log(file);
+    },
+    handleChangeimg(file, fileList) {
+      this.objClass.upLoadHide = true;//上传图片后置upLoadHide为真，隐藏上传框
+      this.objClass.upLoadShow = false;
+    },
+    handleRemoveimg(file, fileList) {
+      this.objClass.upLoadShow = true;//删除图片后显示上传框
+      this.objClass.upLoadHide = false;
+    },
+    // 点击预览图的放大按钮后会触发handlePictureCardPreview
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     }
   }
 }
 </script>
-<style scoped>
+<style>
 .background{
   width:100%;
   height:100%;
@@ -111,7 +165,7 @@ export default {
 .down{
   position: relative;
   left:450px;
-  top:80px;
+  top:-80px;
   width:600px;
   height:600px;
   background:inherit;
@@ -126,5 +180,25 @@ export default {
   position: relative;
   left:30px;
   top:10px;
+}
+.upLoadShow .el-upload {
+  width: 200px !important;
+  height: 200px !important;
+  line-height: 200px !important;
+}
+
+/*当upLoadHide为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
+.upLoadHide .el-upload-list--picture-card .el-upload-list__item {
+  width: 200px !important;
+  height: 200px !important;
+  line-height: 200px !important;
+}
+/*当upLoadHide为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+.upLoadHide .el-upload {
+  display: none;
+}
+.uppic{
+  position: relative;
+  left: -200px;
 }
 </style>
