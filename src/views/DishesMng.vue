@@ -21,7 +21,7 @@
           </el-table-column>
           <el-table-column
               label="菜品名称"
-              prop="dishName"
+              prop="dish"
               width="300"
               sortable>
           </el-table-column>
@@ -29,7 +29,7 @@
               prop="categoryName"
               label="类别"
               width="150"
-              :filters="[{ text: '汉堡', value: '汉堡' }, { text: '饮品', value: '饮品' }]"
+              :filters="[{ text: '汉堡', value: '汉堡' },{ text: '炸鸡', value: '炸鸡' },{ text: '套餐', value: '套餐' },{ text: '小食甜品', value: '小食甜品' }, { text: '饮品', value: '饮品' }]"
               :filter-method="filterTag"
               filter-placement="bottom-end">
             <template slot-scope="scope">
@@ -83,84 +83,14 @@
 import leftbar from '../views/LeftBar'
 import upbar from '../views/UpBar'
 export default {
+  inject:["reload"],
   components: {
     leftbar,
     upbar
   },
   data() {
     return {
-      tableData: [{
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        },
-        {
-          dishName:'香辣鸡腿堡',
-          categoryName: '汉堡',
-          description:'好吃',
-          price: 17,
-          inventory: 10,
-          createdTime: '2023.1.2'
-        }],
+      tableData: [],
       search: ''
     }
   },
@@ -170,13 +100,59 @@ export default {
     },
     handleEdit(index, row) {
       console.log(index, row);
+      sessionStorage.setItem("editdishid", row.dishID);
+      this.$router.push('/editdishes')
     },
     handleDelete(index, row) {
       console.log(index, row);
+      this.$api({
+        url: '/dishes/delete/'+(row.dishID),
+        method: 'get',
+      }).then(res => {
+        console.log(res)
+        if(res.code===20051){
+          console.log(res);
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
+      this.tableData.splice(index,1);
     },
     filterTag(value, row) {
       return row.categoryName === value;
+    },
+    getdishes(){
+      this.$api({
+        url: '/categories/alldishes',
+        method: 'get',
+      }).then(res => {
+        console.log(res)
+        if(res.code===20041){
+          console.log(res);
+          let arryy = [];
+          let oldarr = res.data;
+          for(let x = 0; x < oldarr.length; x++) {
+            for(let y = 0; y < oldarr[x].dishList.length; y++){
+              oldarr[x].dishList[y].categoryName=oldarr[x].categoryName;
+              arryy.push(oldarr[x].dishList[y]);
+            }
+          }
+          console.log(arryy);
+          this.tableData=arryy;
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
     }
+  },
+  mounted() {
+    this.getdishes();
   }
 }
 </script>

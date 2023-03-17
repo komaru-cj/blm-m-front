@@ -30,8 +30,11 @@
         </el-form-item>
         <el-form-item label="菜品类别" prop="region">
           <el-select v-model="ruleForm.region" placeholder="请选择菜品类别">
-            <el-option label="类别一" value="shanghai"></el-option>
-            <el-option label="类别二" value="beijing"></el-option>
+            <el-option label="汉堡" value="2"></el-option>
+            <el-option label="炸鸡" value="3"></el-option>
+            <el-option label="套餐" value="4"></el-option>
+            <el-option label="小食甜品" value="5"></el-option>
+            <el-option label="饮品" value="6"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="菜品价格" prop="price">
@@ -102,6 +105,33 @@ export default {
     };
   },
   methods: {
+    submit(){
+      this.$api({
+        url: '/dishes',
+        method: 'post',
+        header:{
+          'Content-Type':'application/json'  //如果写成contentType会报错
+        },
+        data: {
+          'dish':this.ruleForm.name,
+          'categoryID':this.ruleForm.region,
+          'inventory':this.ruleForm.num,
+          'description':this.ruleForm.desc,
+          'price':this.ruleForm.price
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.code===20011){
+          console.log(res);
+          this.$router.push('/dishesmng')
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
+    },
     change(){
       console.log(file)
       console.log(fileList)
@@ -116,8 +146,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('添加成功!');
-          this.$router.push('/dishesmng')
+          this.submit();
         } else {
           console.log('出错了!!');
           return false;
@@ -165,9 +194,9 @@ export default {
 .down{
   position: relative;
   left:450px;
-  top:-80px;
+  top:-150px;
   width:600px;
-  height:600px;
+  height:00px;
   background:inherit;
   background-color: rgba(255, 255, 252, 1);
   border:none;
@@ -199,6 +228,7 @@ export default {
 }
 .uppic{
   position: relative;
-  left: -200px;
+  left: -250px;
+  top: 50px;
 }
 </style>

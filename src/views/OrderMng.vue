@@ -5,9 +5,9 @@
       <leftbar></leftbar>
       <div class="rightBackground">
         <el-table
-            :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+            :data=tableData
             style="width: 100%"  height="590" :row-class-name="tableRowClassName">
-          <el-table-column type="expand">
+          <el-table-column type="expand" @click="getorderdetail(scope.row)">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="菜品">
@@ -24,12 +24,12 @@
           </el-table-column>
           <el-table-column
               label="取餐号"
-              prop="orderId"
+              prop="orderID"
               sortable>
           </el-table-column>
           <el-table-column
               label="客户ID"
-              prop="customerId">
+              prop="customerID">
           </el-table-column>
           <el-table-column
               label="订单状态"
@@ -64,7 +64,7 @@
           <el-pagination align='center'  @current-change="handleCurrentChange"
                          :current-page="currentPage"
                          layout="total,prev, pager, next, jumper"
-                         :total="tableData.length">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -80,97 +80,14 @@ export default {
     upbar
   },
   mounted() {
-    document.getElementById('switch2').setAttribute('class', 'leftSwitch selected')
+    this.getorder();
   },
   data() {
     return {
-      tableData: [{
-        orderId:'113',
-        customerId:'15055798018',
-        status:1,
-        createdTime:'2023.3.4',
-        totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:1,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:1,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:1,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },
-        {
-          orderId:'1134',
-          customerId:'15055798018',
-          status:0,
-          createdTime:'2023.3.4',
-          totalAmount:'51'
-        },],
+      tableData: [],
       currentPage: 1, // 当前页码
-      total: 14, // 总条数
-      pageSize: 10
+      pageSize: 10,
+      total:0
     }
   },
   methods: {
@@ -196,6 +113,32 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
+      this.getorder();
+    },
+    getorder(){
+      this.$api({
+        url: '/orderinfo/pages',
+        method: 'get',
+        params: {
+          pageNum:this.currentPage,
+          pageSize:this.pageSize
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.code===20041){
+          console.log(res);
+          this.tableData=res.data.list;
+          this.total=res.data.total;
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
+    },
+    getorderdetail(row){
+
     }
   }
 }
