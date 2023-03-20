@@ -4,7 +4,12 @@
     <div class="backComponent">
       <leftbar></leftbar>
       <div class="rightBackground">
-        <echarts></echarts>
+        <div class="echarts1">
+          <echarts></echarts>
+        </div>
+        <div class="echarts2">
+          <echarts2></echarts2>
+        </div>
       </div>
     </div>
   </div>
@@ -13,11 +18,13 @@
 import leftbar from '../views/LeftBar'
 import upbar from '../views/UpBar'
 import echarts from '../views/Echarts'
+import echarts2 from '../views/Echarts2'
 export default {
   components: {
     leftbar,
     upbar,
-    echarts
+    echarts,
+    echarts2
   },
   mounted() {
     document.getElementById('switch4').setAttribute('class', 'leftSwitch selected')
@@ -39,9 +46,27 @@ export default {
   -webkit-box-shadow:none;
   box-shadow:none;
   overflow: hidden;
+  background-color: #f7ffef;
 }
 .backComponent {
   width: 100%;
   overflow: auto;
+}
+.rightBackground{
+  position: relative;
+  top: -600px;
+  left: 200px;
+  background-color: #f7ffef;
+}
+.echarts1{
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 600px;
+}
+.echarts2{
+  position: relative;
+  left: 600px;
+  top:-380px;
 }
 </style>

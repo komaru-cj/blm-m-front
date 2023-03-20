@@ -1,7 +1,7 @@
 <!--  在Echarts.vue文件中 -->
 <template>
   <div class="Echarts">
-    <div id="main" style="width: 600px;height: 400px;left: 500px;top: 100px;"></div>
+    <div id="main1" style="width: 600px;height: 400px;"></div>
   </div>
 </template>
 
@@ -10,25 +10,44 @@ export default {
   name: 'Echarts',
   methods: {
     myEcharts(){
-      var myChart = this.$echarts.init(document.getElementById('main'));
+      var myChart = this.$echarts.init(document.getElementById('main1'));
       //配置图表
       var option = {
-        title: {
-          text: 'echarts入门示例',
+        title : {
+          text: '顾客评价',
+          x:'center'
         },
-        tooltip: {},
+        tooltip : {
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
         legend: {
-          data: ['销量']
+          orient: 'vertical',
+          left: 'left',
+          data: ['5星','4星','3星','2星','1星']
         },
-        xAxis: {
-          data: ['衬衫','羊毛衫','雪纺衫','裤子','高跟鞋','袜子']
-        },
-        yAxis: {},
-        series: [{
-          name: '销量',
-          type: 'bar',
-          data: [5,20,36,10,10,20]
-        }]
+        series : [
+          {
+            name: '评价等级',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+              {value:1548, name:'5星'},
+              {value:310, name:'4星'},
+              {value:234, name:'3星'},
+              {value:135, name:'2星'},
+              {value:335, name:'1星'}
+            ],
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
       };
       myChart.setOption(option);
     }
