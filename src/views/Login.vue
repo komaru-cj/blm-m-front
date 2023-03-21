@@ -133,13 +133,14 @@ export default {
   -moz-box-shadow:none;
   -webkit-box-shadow:none;
   box-shadow:none;
-  color:#6B6B6B;
+  color: #000000;
   text-align:left;
   font-family:'华文细黑';
   font-weight:400;
   font-style:normal;
   font-size:18px;
   outline: none;
+  padding-left: 15px;
 }
 .inputBox.change::-webkit-input-placeholder{
   color: #e30000;
@@ -171,6 +172,7 @@ export default {
   box-shadow: none;
   font-size: 16px;
   color: rgba(255, 205, 86, 1);
+  left: 10px;
 }
 .login{
   margin-right: auto;
@@ -190,7 +192,7 @@ export default {
   outline: none;
 }
 .login:hover{
-  background-color: rgba(247, 238, 156, 1);
+  background-color: rgb(241, 138, 53);
 }
 .right{
   float: left;

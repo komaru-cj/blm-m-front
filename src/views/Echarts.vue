@@ -1,7 +1,7 @@
 <!--  在Echarts.vue文件中 -->
 <template>
   <div class="Echarts">
-    <div id="main1" style="width: 600px;height: 400px;"></div>
+    <div id="main1" style="width: 650px;height: 250px;"></div>
   </div>
 </template>
 

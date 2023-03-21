@@ -22,7 +22,7 @@
               sortable>
           </el-table-column>
           <el-table-column
-              label="客户ID"
+              label="用户ID"
               prop="orderInfo2.customerID">
           </el-table-column>
           <el-table-column
@@ -54,6 +54,10 @@
             <template slot="header" slot-scope="scope">
             </template>
             <template slot-scope="scope">
+              <el-button
+                  type="danger"
+                  size="mini" icon="el-icon-close" circle
+                  @click="handleBack(scope.$index, scope.row)"></el-button>
               <el-button
                   type="success"
                   size="mini" icon="el-icon-check" circle
@@ -100,6 +104,53 @@ export default {
     },
     handleEdit(index, row) {
       console.log(index, row);
+      if(row.orderInfo2.status===3) return;
+      this.$api({
+        url: '/orderinfo/updatestatus',
+        method: 'post',
+        params:{
+          orderID:row.orderInfo2.orderID,
+          status:row.orderInfo2.status+1
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.code===20041){
+          console.log(res);
+          this.tableData=res.data.list;
+          this.total=res.data.total;
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
+      this.getorder();
+    },
+    handleBack(index, row) {
+      if(row.orderInfo2.status===0) return;
+      console.log(index, row);
+      this.$api({
+        url: '/orderinfo/updatestatus',
+        method: 'post',
+        params:{
+          orderID:row.orderInfo2.orderID,
+          status:row.orderInfo2.status-1
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.code===20041){
+          console.log(res);
+          this.tableData=res.data.list;
+          this.total=res.data.total;
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
+      this.getorder();
     },
     handleDelete(index, row) {
       console.log(index, row);
@@ -108,8 +159,14 @@ export default {
       return row.tag === value;
     },
     tableRowClassName(row) {
-      if(row.row.orderInfo2.status === 2){
+      if(row.row.orderInfo2.status==1){
+        return 'danger-row';
+      }
+      if(row.row.orderInfo2.status===2){
         return 'warning-row';
+      }
+      if(row.row.orderInfo2.status===0){
+        return 'info-row';
       }
       return '';
     },
@@ -208,5 +265,12 @@ export default {
 }
 .el-table .warning-row {
   background: oldlace;
+}
+
+.el-table .danger-row {
+  background: #fdd5db;
+}
+.el-table .info-row {
+  background: #faf9f9;
 }
 </style>

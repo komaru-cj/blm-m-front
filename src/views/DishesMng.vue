@@ -8,7 +8,7 @@
       </div>
       <div class="rightBackground">
         <el-table
-            :data="tableData.filter(data => !search || data.dishName.toLowerCase().includes(search.toLowerCase()))"
+            :data="tableData.filter(data => !search || data.dish.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%"  max-height="570" >
           <el-table-column type="expand">
             <template slot-scope="props">

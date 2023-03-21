@@ -65,6 +65,11 @@ const routes = [
     component: () => import('../views/Echarts2')
   },
   {
+    path: '/echarts3',
+    name: 'Echarts3',
+    component: () => import('../views/Echarts3')
+  },
+  {
     path: '/customermng',
     name: 'CustomerMng',
     component: () => import('../views/CustomerMng')

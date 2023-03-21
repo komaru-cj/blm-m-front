@@ -4,6 +4,7 @@
     <div class="backComponent">
       <leftbar></leftbar>
       <div class="rightBackground">
+
       </div>
     </div>
   </div>
@@ -39,5 +40,20 @@ export default {
   position: relative;
   top: -600px;
   left: 200px;
+}
+.main {
+  width: 1320px;
+  top:-20px;
+  position: relative;
+  left: -50px;
+  height: 100%;
+  overflow-y: auto;
+  font-size: 20px;
+}
+.applywrap{
+  color: #563117;
+  font-family: "Gotham", Helvetica, Arial, PingFangSC-Regular, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  background: #fff;
+  line-height: 20px;
 }
 </style>
