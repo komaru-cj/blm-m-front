@@ -21,22 +21,22 @@
         <div class="sta">
           <div class="sta1">
             <el-statistic title="今日订单总数">
-              <template slot="formatter" > 2503 </template>
+              <template slot="formatter" > {{orderNumberOfToday}} </template>
             </el-statistic>
           </div>
           <div class="sta2">
             <el-statistic title="日销售额">
-              <template slot="formatter" > 87456 </template>
+              <template slot="formatter" > {{orderAmountOfToday}} </template>
             </el-statistic>
           </div>
           <div class="sta3">
             <el-statistic title="月销售额">
-              <template slot="formatter" > 3074562 </template>
+              <template slot="formatter" > {{monthSales}} </template>
             </el-statistic>
           </div>
           <div class="sta4">
             <el-statistic title="未完成订单">
-              <template slot="formatter" > 12 </template>
+              <template slot="formatter" > {{unfinishedOrders}} </template>
             </el-statistic>
           </div>
         </div>
@@ -77,6 +77,24 @@ export default {
       var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       // 拼接
       return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+    },
+    getData1(){
+      this.$api({
+        url: '/statistics',
+        method: 'get'
+      }).then(res => {
+        if(res.code===20041){
+          this.monthSales=res.data.monthSales;
+          this.unfinishedOrders=res.data.unfinishedOrders;
+          this.orderNumberOfToday=res.data.daySales.orderNumberOfToday;
+          this.orderAmountOfToday=res.data.daySales.orderAmountOfToday.toFixed(2);
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
     }
   },
   created() {
@@ -85,6 +103,10 @@ export default {
   data() {
     return {
       date: new Date(),
+      orderNumberOfToday:0.00,
+      monthSales:0.00,
+      unfinishedOrders:0.00,
+      orderAmountOfToday:0.00
       // deadline4: (new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours())+':'+(new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes())+':'+(new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds())
     }
   },
@@ -92,6 +114,7 @@ export default {
     let _this = this// 声明一个变量指向Vue实例this，保证作用域一致
     this.timer = setInterval(() => {
       _this.date = new Date(); // 修改数据date
+      _this.getData1();
     }, 1000)
   },
   beforeDestroy() {
@@ -129,17 +152,20 @@ export default {
   top: 280px;
   left: 780px;
   width: 800px;
+  z-index: 100;
 }
 .echarts2{
   position: relative;
   left: -120px;
   top:-100px;
   width: 800px;
+  z-index: 100;
 }
 .echarts3{
   position: relative;
   left: 700px;
   top:-720px;
+  z-index: 100;
 }
 .time{
   position: relative;

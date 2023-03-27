@@ -19,11 +19,12 @@
           <el-table-column
               label="取餐号"
               prop="orderInfo2.orderID"
+              width="130"
               sortable>
           </el-table-column>
           <el-table-column
-              label="用户ID"
-              prop="orderInfo2.customerID">
+              label="下单手机号"
+              prop="orderInfo2.phoneNumber">
           </el-table-column>
           <el-table-column
               label="订单状态"

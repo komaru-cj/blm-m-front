@@ -128,7 +128,7 @@ export default {
   background-color:rgba(255, 255, 255, 1);
   box-sizing:border-box;
   border-style:solid;
-  border-color: rgb(227, 225, 225);
+  border-color: rgb(159, 157, 157);
   border-radius:15px;
   -moz-box-shadow:none;
   -webkit-box-shadow:none;
