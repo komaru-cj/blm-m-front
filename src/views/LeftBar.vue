@@ -31,6 +31,9 @@
   width: 300px;
   min-height: 400px;
 }
+.body{
+  z-index: 1000;
+}
 </style>
 
 <script>

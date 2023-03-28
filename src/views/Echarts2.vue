@@ -18,43 +18,46 @@ export default {
         console.log(res)
         if(res.code===20041){
           console.log(res);
+          console.log(res.data[0].dishCount);
+          console.log(res.data[0].dishName);
           var option = {
             dataset: {
               source: [
-                ['score', 'amount', 'product'],
-                [4.7, res.data[0].dishCount, res.data[0].dishName],
+                ['score', '销量（份）', 'product'],
+                [5.0, res.data[0].dishCount, res.data[0].dishName],
                 [2.6, res.data[1].dishCount, res.data[1].dishName],
                 [3.3, res.data[2].dishCount, res.data[2].dishName],
-                [3.7, res.data[3].dishCount, res.data[3].dishName],
-                [1.5, res.data[4].dishCount, res.data[4].dishName]
+                [1.7, res.data[3].dishCount, res.data[3].dishName],
+                [4.3, res.data[4].dishCount, res.data[4].dishName]
               ]
             },
             grid: { containLabel: true },
-            xAxis: { name: 'amount' },
+            xAxis: { name: '销量（份）' },
             yAxis: { type: 'category' },
             visualMap: {
               orient: 'horizontal',
-              left: 'center',
+              x: 'center',
               min: 1,
               max: 5,
               text: ['高评分', '低评分'],
               // Map the score column to color
               dimension: 0,
               inRange: {
-                color: ['#65B581', '#FFCE34', '#FD665F']
-              }
+                color: ['#91cc75', '#fac858', '#ee6666']
+              },
+              bottom:'15'
             },
             series: [
               {
                 type: 'bar',
                 encode: {
                   // Map the "amount" column to X axis.
-                  x: 'amount',
+                  x: '销量（份）',
                   // Map the "product" column to Y axis
                   y: 'product'
                 }
               }
-            ]
+            ],
           };
           myChart.setOption(option);
         }

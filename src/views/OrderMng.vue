@@ -13,6 +13,9 @@
                   <el-form-item v-for="(item, i) in props.row.respOrderDetailList">
                     <span>{{ item.dishName }}*{{item.number}}</span>
                   </el-form-item>
+                  <el-form-item>
+                    <span>订单评价：{{props.row.orderInfo2.comment}}</span>
+                  </el-form-item>
                 </el-form>
               </template>
           </el-table-column>
@@ -58,11 +61,11 @@
               <el-button
                   type="danger"
                   size="mini" icon="el-icon-close" circle
-                  @click="handleBack(scope.$index, scope.row)"></el-button>
+                  @click="handleBack(scope.$index, scope.row)" style="margin-right: 10px"></el-button>
               <el-button
                   type="success"
                   size="mini" icon="el-icon-check" circle
-                  @click="handleEdit(scope.$index, scope.row)"></el-button>
+                  @click="handleEdit(scope.$index, scope.row)" style="margin-right: 40px"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -179,7 +182,7 @@ export default {
     },
     getorder(){
       this.$api({
-        url: '/orderinfo/allorder/'+this.currentPage+'/'+this.pageSize,
+        url: '/orderinfo/allorder/'+this.currentPage+'/'+this.pageSize+'/'+sessionStorage.getItem("grade"),
         method: 'get'
       }).then(res => {
         console.log(res)

@@ -1,6 +1,6 @@
 <template>
   <div class="Echarts">
-    <div id="main3" style="width: 650px;height: 400px;"></div>
+    <div id="main3" style="width: 650px;height: 300px;"></div>
   </div>
 </template>
 
@@ -53,26 +53,26 @@ export default {
               dimension: 0,
               pieces: [
                 {
-                  lte: this.dataTable[24],
+                  lte: 7,
                   color: 'green'
                 },
                 {
-                  gt: this.dataTable[24],
-                  lte: this.dataTable[24]+1,
+                  gt: 7,
+                  lte: 9,
                   color: 'red'
                 },
                 {
-                  gt: this.dataTable[24]+1,
-                  lte: this.dataTable[25],
+                  gt: 9,
+                  lte: 17,
                   color: 'green'
                 },
                 {
-                  gt: this.dataTable[25],
-                  lte: this.dataTable[25]+1,
+                  gt: 17,
+                  lte: 19,
                   color: 'red'
                 },
                 {
-                  gt: this.dataTable[25]+1,
+                  gt: 19,
                   color: 'green'
                 }
               ]
@@ -95,7 +95,7 @@ export default {
                         xAxis: '07:00'
                       },
                       {
-                        xAxis: '08:00'
+                        xAxis: '09:00'
                       }
                     ],
                     [
@@ -104,7 +104,7 @@ export default {
                         xAxis: '17:00'
                       },
                       {
-                        xAxis: '18:00'
+                        xAxis: '19:00'
                       }
                     ]
                   ]

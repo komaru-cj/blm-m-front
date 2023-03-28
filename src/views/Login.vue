@@ -64,6 +64,7 @@ export default {
         if(res.code===20051){
           console.log(res);
           sessionStorage.setItem("key", this.username);
+          sessionStorage.setItem("grade", 0);
           this.$router.push('/dishesmng')
           alert('欢迎回来,'+this.username)
         }

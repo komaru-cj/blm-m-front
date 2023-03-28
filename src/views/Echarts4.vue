@@ -1,7 +1,6 @@
-<!--  在Echarts.vue文件中 -->
 <template>
   <div class="Echarts">
-    <div id="main1" style="width: 700px;height: 350px;"></div>
+    <div id="main4" style="width: 700px;height: 350px;"></div>
   </div>
 </template>
 
@@ -19,24 +18,21 @@ export default {
   },
   methods: {
     myEcharts(){
-      var myChart = this.$echarts.init(document.getElementById('main1'));
+      var myChart = this.$echarts.init(document.getElementById('main4'));
       //配置图表
       this.$api({
-        url: '/orderinfo/gradenumber',
+        url: '/customer/rank',
         method: 'get'
       }).then(res => {
         console.log(res)
         if(res.code===20041){
           console.log(res);
-          console.log(222);
-          this.a=res.data[1].number;
-          this.b=res.data[2].number;
-          this.c=res.data[3].number;
-          this.d=res.data[4].number;
-          this.e=res.data[5].number;
+          this.a=res.data[0].number;
+          this.b=res.data[1].number;
+          this.c=res.data[2].number;
           var option = {
             title : {
-              text: '顾客评价',
+              text: '会员等级',
               x:'center',
               bottom:'0'
             },
@@ -76,22 +72,15 @@ export default {
                   show: false
                 },
                 data:[
-                  {value:this.e, name:'5星',grade:5},
-                  {value:this.d, name:'4星',grade:4},
-                  {value:this.c, name:'3星',grade:3},
-                  {value:this.b, name:'2星',grade:2},
-                  {value:this.a, name:'1星',grade:1}
+                  {value:this.a, name:'VIP1'},
+                  {value:this.b, name:'VIP2'},
+                  {value:this.c, name:'VIP3'},
                 ],
-                color: ['#5470c6','#91cc75','#fac858','#ee6666','#73c0de']
+                color: ['#b06ecc','#81c78d','#90b7d2']
               }
             ]
           };
           myChart.setOption(option);
-          myChart.on('click', (param) =>{
-            sessionStorage.setItem("grade", param.data.grade);
-            console.log(param.data.grade);
-            this.$router.push('/ordermng')
-          });
         }
         else {
           console.log(error);
@@ -101,7 +90,7 @@ export default {
       });
     }
   },
-  mounted() {
+  mounted(){
     this.myEcharts();
   }
 }
